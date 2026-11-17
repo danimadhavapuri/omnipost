@@ -1,13 +1,10 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
-
-# Reddit
-REDDIT_CLIENT_ID = os.getenv("REDDIT_CLIENT_ID")
-REDDIT_CLIENT_SECRET = os.getenv("REDDIT_CLIENT_SECRET")
-REDDIT_USERNAME = os.getenv("REDDIT_USERNAME")
-REDDIT_PASSWORD = os.getenv("REDDIT_PASSWORD")
+BASE_DIR = Path(__file__).resolve().parent.parent
+env_path = BASE_DIR / ".env"
+load_dotenv(dotenv_path=env_path, override=True)
 
 # Mastodon
 MASTODON_ACCESS_TOKEN = os.getenv("MASTODON_ACCESS_TOKEN")
@@ -17,9 +14,8 @@ MASTODON_BASE_URL = os.getenv("MASTODON_BASE_URL", "https://mastodon.social")
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
-# Blogger
-BLOGGER_API_KEY = os.getenv("BLOGGER_API_KEY")
-BLOGGER_BLOG_ID = os.getenv("BLOGGER_BLOG_ID")
+# GitHub Gist
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
-# Pastebin
-PASTEBIN_API_KEY = os.getenv("PASTEBIN_API_KEY")
+# Discord Webhook
+DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")

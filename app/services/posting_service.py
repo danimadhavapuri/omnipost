@@ -1,13 +1,38 @@
 from app.schemas import PlatformResult
+from app.platforms.mastodon import MastodonPlatform
+from app.platforms.telegram import TelegramPlatform
+from app.platforms.github_gist import GitHubGistPlatform
+from app.platforms.discord import DiscordPlatform
+from app.platforms.dpaste import DPastePlatform
 
-# Platforms will be imported here in Day 2
-# For now this is a placeholder
 
 def post_to_all_platforms(message: str) -> list[PlatformResult]:
     """
-    This service will call all platform integrations.
-    Returns a list of results from each platform.
+    Automated multi-platform posting to 5 distinct platforms.
+    Each platform is isolated: failure in one does not block others.
     """
+    platforms = [
+        MastodonPlatform(),
+        TelegramPlatform(),
+        GitHubGistPlatform(),
+        DiscordPlatform(),
+        DPastePlatform()
+    ]
+
     results = []
-    # Platform calls will be added in Day 2
+
+    for platform in platforms:
+        try:
+            res = platform.post(message)
+            results.append(res)
+        except Exception as err:
+            results.append(
+                PlatformResult(
+                    platform=platform.platform_name,
+                    status="failed",
+                    public_access=False,
+                    error=str(err)
+                )
+            )
+
     return results
